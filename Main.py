@@ -4,23 +4,30 @@ from pathlib import Path
 from PIL import Image, ImageTk
 from tkintermapview import TkinterMapView
 
-taille_icone = 50
+taille_icone = 25
 p = Path()
 fen = tk.Tk()
-
-carte = TkinterMapView(fen, width=800, height=800, corner_radius=15)
-carte.pack(fill="both")
 
 blanco = ImageTk.PhotoImage(
     Image.open(p / "images" / "blanco.ico").resize((taille_icone, taille_icone)))
 tinto = ImageTk.PhotoImage(
     Image.open(p / "images" / "tinto.ico").resize((taille_icone, taille_icone)))
+bg = ImageTk.PhotoImage(
+    Image.open(p / "images" / "th.jpg"))
 
-carte.set_marker(38.3436365, -0.4881708, icon=blanco)  # repeat as long as wines
-carte.set_position(41.0722841, -3.2523380, marker=False)  # Point of view
+label1 = tk.Label(fen, image=bg)
+label1.place(x=0, y=0)
+frame1 = tk.Frame(fen, height=600, width=600, highlightbackground="red", highlightthickness=5)
+frame1.pack()
+carte = TkinterMapView(frame1, width=600, height=600, corner_radius=0, bg_color="purple", max_zoom=7)
+carte.pack(fill="both")
+
+for key, values in position.DO_VINOS.items():
+    icone_a_changer = tinto if values[1] == "Tinto" else blanco
+    carte.set_marker(values[0][0], values[0][1], icon=icone_a_changer)  # repeat as long as wines
+
+carte.set_position(41.6084332, -1.9271726, marker=False)  # Point of view
 carte.set_zoom(7)  # zoom of pov
-# carte.set_position(41.3527628, -1.6422977, marker=True)
-
 
 fen.geometry("800x800")
 fen.title("Vinos Ibericos")
