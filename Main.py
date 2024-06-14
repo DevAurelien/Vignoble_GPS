@@ -5,12 +5,6 @@ from tkintermapview import TkinterMapView
 
 taille_icone = 25
 p = Path()
-fen = tk.Tk()
-
-import tkinter as tk
-
-
-# fen = tk.Tk()
 
 
 class Modele:
@@ -37,33 +31,40 @@ class Modele:
 class View:
     def __init__(self, h_w_size=800):
         self.fen = tk.Tk()
-        self.fen.geometry(f"{str(h_w_size)}x{str(h_w_size)}")
+        self.fen.geometry(f"{str(h_w_size)}x{str(h_w_size-200)}")
         self.fen.title("Vinos Ibericos")
         self.fen.resizable(False, False)
-        self.taille = str(h_w_size)
         self.taille_icone = 25
-        self.label1 = tk.Label(fen, image=ImageTk.PhotoImage(Image.open(p / "images" / "th.jpg")))
+        self.bg = ImageTk.PhotoImage(Image.open(p / "images" / "th.jpg"))
+        self.label1 = tk.Label(self.fen, image=self.bg)
         self.blanco = ImageTk.PhotoImage(
             Image.open(p / "images" / "blanco.ico").resize((taille_icone, taille_icone)))
         self.tinto = ImageTk.PhotoImage(
             Image.open(p / "images" / "tinto.ico").resize((taille_icone, taille_icone)))
-        self.frame1 = tk.Frame(fen, height=600, width=600, highlightbackground="red", highlightthickness=5)
+        self.frame1 = tk.Frame(self.fen, height=600, width=600, highlightbackground="red", highlightthickness=5)
         self.carte = TkinterMapView(self.frame1, width=600, height=600, corner_radius=0, bg_color="purple", max_zoom=7)
+        self.frame_button = tk.Frame(self.fen, height=600, width=100, bd=0, highlightthickness=0, bg="#83a6a2")
+        self.liste_boutons = []
         self.tri_des_vins()
         self.position_depart()
-        self.bouton1 = tk.Button(fen, text="Vin")  # , command=pass)
+        self.bouton1 = tk.Button(self.fen, text="Vin")  # , command=pass)
 
     def affichage(self):
         self.label1.place(x=0, y=0)
-        self.frame1.pack()
+        for element in self.liste_boutons:
+            element.pack()
+        self.frame_button.pack(side="left")
+        self.frame1.pack(side="left")
         self.carte.pack(fill="both")
-        self.bouton1.pack()
+        # self.bouton1.pack()
+
         self.fen.mainloop()
 
     def tri_des_vins(self):
         for key, values in Modele().DO_VINOS.items():
             icone_a_changer = self.tinto if values[1] == "Tinto" else self.blanco
             self.carte.set_marker(values[0][0], values[0][1], icon=icone_a_changer)  # repeat as long as wines
+            self.liste_boutons.append(tk.Button(self.frame_button, text=f"{key}"))
 
     def position_depart(self):
         self.carte.set_position(41.6084332, -1.9271726, marker=False)  # Point of view
@@ -83,5 +84,3 @@ class Controlleur:
 if __name__ == "__main__":
     control = Controlleur()
     control.vue.affichage()
-
-# fen.mainloop()
