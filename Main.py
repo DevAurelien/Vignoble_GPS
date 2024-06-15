@@ -46,6 +46,7 @@ class View:
         self.frame_button = tk.Frame(self.fen, height=600, width=100, bd=0, highlightthickness=0, bg="#83a6a2")
         self.liste_boutons = []
         self.create_wines_button()
+        self.carte.delete_all_marker()
         self.start_position()
         # self.bouton1 = tk.Button(self.fen, text="Vin")  # , command=pass)
 
@@ -60,14 +61,14 @@ class View:
 
         self.fen.mainloop()
 
-    def place_marker(self,valeur):
-        icone_a_changer = self.tinto if valeur[1] == "Tinto" else self.blanco
-        self.carte.set_marker(valeur[0][0], valeur[0][1], icon=icone_a_changer)
-
     def create_wines_button(self):
         for key, values in Modele().DO_VINOS.items():
             self.liste_boutons.append(
                 tk.Button(self.frame_button, text=f"{key}", command=self.place_marker(values)))
+
+    def place_marker(self, valeur):
+        icone_a_changer = self.tinto if valeur[1] == "Tinto" else self.blanco
+        self.carte.set_marker(valeur[0][0], valeur[0][1], icon=icone_a_changer)
 
     def start_position(self):
         self.carte.set_position(41.6084332, -1.9271726, marker=False)  # Point of view
