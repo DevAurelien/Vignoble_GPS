@@ -57,7 +57,7 @@ class View:
     def affichage(self):
         self.label1.place(x=0, y=0)
         for element in self.liste_boutons:
-            element.pack()
+            element.pack(fill="both", padx=20)
         self.frame_button.pack(side="left")
         self.frame1.pack(side="left")
         self.carte.pack(fill="both")
@@ -75,8 +75,7 @@ class Controlleur:
         self.modele = Modele()
 
     def center_view(self, carte_position):
-        self.vue.carte.set_position(carte_position[0], carte_position[1], marker=False)
-        self.vue.carte.set_zoom(6)
+        self.vue.carte.set_position(carte_position[0], carte_position[1])
 
     def place_marker(self, valeur):
         self.vue.carte.delete_all_marker()
