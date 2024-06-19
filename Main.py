@@ -1,4 +1,5 @@
 import tkinter as tk
+import tkinter.messagebox
 from pathlib import Path
 from PIL import Image, ImageTk
 from tkintermapview import TkinterMapView
@@ -82,9 +83,11 @@ class Controlleur:
         icone_a_changer = self.vue.tinto if valeur[1] == "Tinto" else self.vue.blanco
         self.vue.carte.set_marker(valeur[0][0], valeur[0][1], icon=icone_a_changer)
         self.center_view([valeur[0][0], valeur[0][1]])
+        self.info_region(valeur)
 
-    def info_region(self):
-        pass
+    def info_region(self, valeur):
+        nom_du_vin = "Vin Blanc" if valeur[1] == "Blanco" else "Vin Rouge"
+        tkinter.messagebox.showinfo(title=f"{nom_du_vin}", message=f"{valeur[0][0]}, {valeur[0][1]}" )
 
 
 def main():
