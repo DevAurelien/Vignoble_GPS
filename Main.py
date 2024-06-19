@@ -52,12 +52,12 @@ class View:
     def create_wines_button(self):
         for key, values in Modele().DO_VINOS.items():
             self.liste_boutons.append(
-                tk.Button(self.frame_button, text=f"{key}", command=lambda v=values: self.control.place_marker(v)))
+                tk.Button(self.frame_button, text=f"{key}", command=lambda v=values: self.control.place_marker(v), bg="red" if values[1] == "Tinto" else "white"))
 
     def affichage(self):
         self.label1.place(x=0, y=0)
         for element in self.liste_boutons:
-            element.pack(fill="both", padx=20)
+            element.pack(fill="both", padx=20,pady=2)
         self.frame_button.pack(side="left")
         self.frame1.pack(side="left")
         self.carte.pack(fill="both")
@@ -82,6 +82,9 @@ class Controlleur:
         icone_a_changer = self.vue.tinto if valeur[1] == "Tinto" else self.vue.blanco
         self.vue.carte.set_marker(valeur[0][0], valeur[0][1], icon=icone_a_changer)
         self.center_view([valeur[0][0], valeur[0][1]])
+
+    def info_region(self):
+        pass
 
 
 def main():
