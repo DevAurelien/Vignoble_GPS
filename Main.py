@@ -36,13 +36,13 @@ class View:
         self.fen.geometry(f"800x600")
         self.fen.title("Vinos Ibericos")
         self.fen.resizable(False, False)
-        self.taille_icone = 25
+        self.taille_icone = 100
         self.bg = ImageTk.PhotoImage(Image.open(p / "images" / "th.jpg"))
         self.label1 = tk.Label(self.fen, image=self.bg)
         self.blanco = ImageTk.PhotoImage(
-            Image.open(p / "images" / "blanco.ico").resize((taille_icone, taille_icone)))
+            Image.open(p / "images" / "blanco.ico").resize((taille_icone * 2, taille_icone * 2)))
         self.tinto = ImageTk.PhotoImage(
-            Image.open(p / "images" / "tinto.ico").resize((taille_icone, taille_icone)))
+            Image.open(p / "images" / "tinto.ico").resize((taille_icone * 2, taille_icone * 2)))
         self.frame1 = tk.Frame(self.fen, height=600, width=600, highlightbackground="red", highlightthickness=5)
         self.carte = TkinterMapView(self.frame1, width=600, height=600, corner_radius=0, bg_color="purple", max_zoom=7)
         self.frame_button = tk.Frame(self.fen, height=600, width=100, bd=0, highlightthickness=0, bg="#83a6a2")
@@ -53,12 +53,13 @@ class View:
     def create_wines_button(self):
         for key, values in Modele().DO_VINOS.items():
             self.liste_boutons.append(
-                tk.Button(self.frame_button, text=f"{key}", command=lambda v=values: self.control.place_marker(v), bg="red" if values[1] == "Tinto" else "white"))
+                tk.Button(self.frame_button, text=f"{key}", command=lambda v=values: self.control.place_marker(v),
+                          bg="red" if values[1] == "Tinto" else "white"))
 
     def affichage(self):
         self.label1.place(x=0, y=0)
         for element in self.liste_boutons:
-            element.pack(fill="both", padx=20,pady=2)
+            element.pack(fill="both", padx=20, pady=2)
         self.frame_button.pack(side="left")
         self.frame1.pack(side="left")
         self.carte.pack(fill="both")
@@ -87,7 +88,15 @@ class Controlleur:
 
     def info_region(self, valeur):
         nom_du_vin = "Vin Blanc" if valeur[1] == "Blanco" else "Vin Rouge"
-        tkinter.messagebox.showinfo(title=f"{nom_du_vin}", message=f"{valeur[0][0]}, {valeur[0][1]}" )
+
+        # tkinter.messagebox.showinfo(title=f"{nom_du_vin}", message=f"{valeur[0][0]}, {valeur[0][1]}", command=messagebox, width = 7)
+        self.boite_message(self.fen)
+
+    def boite_message(self, fen):
+        fen_boite = tk.Toplevel(fen)
+        fen_boite.title("Je l'ai trouvé !")
+        fen_boite.geometry("300x100")
+        tk.Button(fen_boite, text="Parfait", command=fen_boite.destroy, width=50).pack(padx=50, pady=40)
 
 
 def main():
