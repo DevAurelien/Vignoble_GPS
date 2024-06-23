@@ -111,7 +111,6 @@ class Controlleur:
 
     def info_region(self, valeur):
         nom_du_vin = "Vin Blanc" if valeur[1] == "Blanco" else "Vin Rouge"
-        # tkinter.messagebox.showinfo(title=f"{nom_du_vin}", message=f"{valeur[0][0]}, {valeur[0][1]}", command=messagebox, width = 7)
         self.vue.boite_message(self.fen, valeur)
 
 
